@@ -6,6 +6,8 @@
 
 #include "Actor.h"
 
+Engine* Engine::Instance = nullptr;
+
 void Engine::Input()
 {
 	KeyCode = _getch();
@@ -48,6 +50,11 @@ void Engine::SpawnActor(AActor* SpawnedActor)
 void Engine::Tick()
 {
 	//AllActorofClass->Tick();
+
+	if (KeyCode == 27)
+	{
+		bIsRunning = false;
+	}
 
 	for (int i = 0; i < Actors.size(); ++i)
 	{

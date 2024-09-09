@@ -5,12 +5,26 @@ class AActor;
 
 class Engine
 {
-public:
+private:
 	Engine()
 	{
 		KeyCode = 0;
 		bIsRunning = true;
 	}
+
+public:
+	static Engine* GetInstance()
+	{
+		if (!Instance)
+		{
+			Instance = new Engine();
+		}
+
+		return Instance;
+	}
+
+
+
 
 	virtual ~Engine()
 	{
@@ -27,9 +41,13 @@ protected:
 	int KeyCode;
 	bool bIsRunning;
 
+	static Engine* Instance;
+
 public:
 	void Run();
 	void SpawnActor(class AActor* SpawnedActor);
 
 };
+
+#define GEngine			Engine::GetInstance()
 
