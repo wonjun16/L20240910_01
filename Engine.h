@@ -46,6 +46,7 @@ protected:
 public:
 	void Run();
 	void SpawnActor(class AActor* SpawnedActor);
+	void LoadLevel(char Map[10][10]);
 
 };
 

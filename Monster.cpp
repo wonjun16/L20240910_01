@@ -5,6 +5,7 @@
 AMonster::AMonster()
 {
 	srand((unsigned int)time(nullptr));
+	Depth = EDepth::Actor;
 }
 
 void AMonster::Tick(int KeyCode)

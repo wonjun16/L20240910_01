@@ -1,4 +1,13 @@
 #pragma once
+enum class EDepth
+{
+	Background = 0,
+	Floor = 5,
+	Actor = 10,
+	UI = 20,
+	Max
+};
+
 class AActor
 {
 public:
@@ -6,6 +15,7 @@ public:
 	{
 		X = 10;
 		Y = 10;
+		Depth = EDepth::Background;
 	}
 
 	virtual ~AActor()
@@ -52,6 +62,7 @@ protected:
 	int X;
 	int Y;
 	char StaticMesh;
+	EDepth Depth;
 };
 
 

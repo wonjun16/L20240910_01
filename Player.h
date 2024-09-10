@@ -5,7 +5,7 @@ class APlayer : public AActor
 public:
 	APlayer()
 	{
-
+		Depth = EDepth::Actor;
 	}
 	virtual ~APlayer()
 	{
