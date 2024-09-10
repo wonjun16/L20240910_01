@@ -1,5 +1,6 @@
 #pragma once
 #include <vector>
+#include <fstream>
 
 class AActor;
 
@@ -46,8 +47,9 @@ protected:
 public:
 	void Run();
 	void SpawnActor(class AActor* SpawnedActor);
-	void LoadLevel(char Map[10][10]);
-	bool SortActors(AActor* a, AActor* b);
+	void LoadLevel(std::fstream &MapStream);
+	static bool SortActors(AActor* a, AActor* b);
+	//void SaveLevel(std::fstream& MapStream);
 };
 
 #define GEngine			Engine::GetInstance()

@@ -4,7 +4,6 @@
 #include <stdio.h>
 #include <Windows.h>
 #include <algorithm>
-#include <iostream>
 
 #include "Actor.h"
 #include "Player.h"
@@ -14,6 +13,7 @@
 #include "Goal.h"
 
 Engine* Engine::Instance = nullptr;
+enum class EDepth;
 
 void Engine::Input()
 {
@@ -47,6 +47,7 @@ void Engine::Run()
 
 		Render();
 	}
+
 }
 
 bool Engine::SortActors(AActor* a, AActor* b)
@@ -54,14 +55,75 @@ bool Engine::SortActors(AActor* a, AActor* b)
 	return a->GetDepth() < b->GetDepth();
 }
 
+//void Engine::SaveLevel(std::fstream& MapStream)
+//{
+//	for (int i = 0; i < 10; i++)
+//	{
+//		for (int j = 0; j < 10; j++)
+//		{
+//			MapStream << Map[j][i];
+//		}
+//		MapStream << std::endl;
+//	}
+//}
+
 void Engine::SpawnActor(AActor* SpawnedActor)
 {
 	Actors.push_back(SpawnedActor);
 }
 
-void Engine::LoadLevel(char Map[10][10])
+void Engine::LoadLevel(std::fstream &MapStream)
 {
-	for (int Y = 0; Y < 10; ++Y)
+	int index = 0;
+	char line[11] = { 0, };
+	while (MapStream.getline(line, 11)) {
+		for (int i = 0; i < 10; i++)
+		{
+			if (line[i] == '*')
+			{
+				AWall* Wall = new AWall();
+				Wall->SetX(i);
+				Wall->SetY(index);
+				Wall->SetStaticMesh(line[i]);
+				GEngine->SpawnActor(Wall);
+			}
+			else if (line[i] == 'P')
+			{
+				APlayer* MyPlayer = new APlayer();
+				MyPlayer->SetX(i);
+				MyPlayer->SetY(index);
+				MyPlayer->SetStaticMesh(line[i]);
+				GEngine->SpawnActor(MyPlayer);
+			}
+			else if (line[i] == 'M')
+			{
+				AMonster* Monster = new AMonster();
+				Monster->SetX(i);
+				Monster->SetY(index);
+				Monster->SetStaticMesh(line[i]);
+				GEngine->SpawnActor(Monster);
+			}
+			else if (line[i] == ' ')
+			{
+				AFloor* Floor = new AFloor();
+				Floor->SetX(i);
+				Floor->SetY(index);
+				Floor->SetStaticMesh(line[i]);
+				GEngine->SpawnActor(Floor);
+			}
+			else if (line[i] == 'G')
+			{
+				AGoal* Goal = new AGoal();
+				Goal->SetX(i);
+				Goal->SetY(index);
+				Goal->SetStaticMesh(line[i]);
+				GEngine->SpawnActor(Goal);
+			}
+		}
+		index++;
+	}
+
+	/*for (int Y = 0; Y < 10; ++Y)
 	{
 		for (int X = 0; X < 10; ++X)
 		{
@@ -106,11 +168,14 @@ void Engine::LoadLevel(char Map[10][10])
 				GEngine->SpawnActor(Goal);
 			}
 		}
-	}
+	}*/
 
-	sort(Actors.begin(), Actors.end(), [this](AActor* a, AActor* b) {
-		return SortActors(a, b);
-		});
+	sort(Actors.begin(), Actors.end(), SortActors);
+
+	for (const auto& i : Actors)
+	{
+		EDepth k = i->GetDepth();
+	}
 }
 
 void Engine::Tick()
