@@ -3,6 +3,8 @@
 #include <conio.h>
 #include <stdio.h>
 #include <Windows.h>
+#include <algorithm>
+#include <iostream>
 
 #include "Actor.h"
 #include "Player.h"
@@ -45,6 +47,11 @@ void Engine::Run()
 
 		Render();
 	}
+}
+
+bool Engine::SortActors(AActor* a, AActor* b)
+{
+	return a->GetDepth() < b->GetDepth();
 }
 
 void Engine::SpawnActor(AActor* SpawnedActor)
@@ -101,7 +108,9 @@ void Engine::LoadLevel(char Map[10][10])
 		}
 	}
 
-
+	sort(Actors.begin(), Actors.end(), [this](AActor* a, AActor* b) {
+		return SortActors(a, b);
+		});
 }
 
 void Engine::Tick()

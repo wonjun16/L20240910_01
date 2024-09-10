@@ -47,7 +47,7 @@ public:
 	void Run();
 	void SpawnActor(class AActor* SpawnedActor);
 	void LoadLevel(char Map[10][10]);
-
+	bool SortActors(AActor* a, AActor* b);
 };
 
 #define GEngine			Engine::GetInstance()

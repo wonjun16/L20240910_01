@@ -57,6 +57,10 @@ public:
 		StaticMesh = NewStaticMesh;
 	}
 
+	EDepth GetDepth()
+	{
+		return Depth;
+	}
 
 protected:
 	int X;
